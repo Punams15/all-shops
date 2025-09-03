@@ -1,6 +1,20 @@
 Rails.application.routes.draw do
+  get "reviews/index"
+  get "promotions/index"
+  get "orders/index"
+  get "orders/show"
+  get "cart/index"
+  get "sellers/index"
+  get "sellers/show"
+  get "products/index"
+  get "products/show"
+  get "subcategories/index"
+  get "subcategories/show"
+  get "categories/index"
+  get "categories/show"
+  get "home/index"
   # Root path (homepage)
-  root "home#index"
+  root "home#index"   #Products#index
 
   # Categories → Subcategories → Products
   resources :categories, only: [:index, :show] do
