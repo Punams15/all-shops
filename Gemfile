@@ -49,6 +49,7 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "rspec-rails"    #added by me for development and testing,not in production, adding it inside the group ensures it won't be installed in production environments.
 end
 
 group :development do

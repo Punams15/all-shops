@@ -1,14 +1,37 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  get "reviews/index"
+  get "promotions/index"
+  get "orders/index"
+  get "orders/show"
+  get "cart/index"
+  get "sellers/index"
+  get "sellers/show"
+  get "products/index"
+  get "products/show"
+  get "subcategories/index"
+  get "subcategories/show"
+  get "categories/index"
+  get "categories/show"
+  get "home/index"
+  # Root path (homepage)
+  root "home#index"   #Products#index
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # Categories → Subcategories → Products
+  resources :categories, only: [:index, :show] do
+    resources :subcategories, only: [:index, :show] do
+      resources :products, only: [:index]
+    end
+  end
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Products and Sellers
+  resources :products, only: [:index, :show]
+  resources :sellers, only: [:index, :show]
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # Shopping cart & Orders
+  resources :cart, only: [:index]          # just a placeholder for now
+  resources :orders, only: [:index, :show]
+
+  # Promotions & Reviews
+  resources :promotions, only: [:index]
+  resources :reviews, only: [:index]
 end
