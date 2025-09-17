@@ -1,0 +1,17 @@
+<%= form_with(model: @seller) do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :profile_description %>
+    <%= f.text_area :profile_description %>
+  </div>
+  <div>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

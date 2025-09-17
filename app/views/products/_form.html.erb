@@ -1,0 +1,40 @@
+<%= form_with(model: @product) do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.label :price %>
+    <%= f.number_field :price, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= f.label :stock %>
+    <%= f.number_field :stock %>
+  </div>
+
+  <div>
+    <%= f.label :subcategory_id, "Subcategory" %>
+    <%= f.collection_select :subcategory_id, Subcategory.all, :id, :name, prompt: "Select Subcategory" %>
+  </div>
+
+  <div>
+    <%= f.label :seller_id, "Seller" %>
+    <%= f.collection_select :seller_id, Seller.all, :id, :name, prompt: "Select Seller" %>
+  </div>
+
+  <div>
+    <%= f.label :image_url %>
+    <%= f.text_field :image_url %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

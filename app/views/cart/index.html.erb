@@ -1,0 +1,25 @@
+<h1>Your Shopping Cart</h1>
+
+<% if @cart_items.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart_items.each do |item| %>
+        <tr>
+          <td><%= link_to item.product.name, product_path(item.product) %></td>
+          <td><%= item.quantity %></td>
+          <td>$<%= item.total_price %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <p>Total: $<%= @cart.total_price %></p>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>

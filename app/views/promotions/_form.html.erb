@@ -1,0 +1,21 @@
+<%= form_with(model: @promotion) do |f| %>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+  <div>
+    <%= f.label :discount_percentage %>
+    <%= f.number_field :discount_percentage, step: 0.01 %>
+  </div>
+  <div>
+    <%= f.label :start_date %>
+    <%= f.date_field :start_date %>
+  </div>
+  <div>
+    <%= f.label :end_date %>
+    <%= f.date_field :end_date %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

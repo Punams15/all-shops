@@ -1,0 +1,17 @@
+<%= form_with(model: @order) do |f| %>
+  <div>
+    <%= f.label :user_id %>
+    <%= f.collection_select :user_id, User.all, :id, :name %>
+  </div>
+  <div>
+    <%= f.label :status %>
+    <%= f.text_field :status %>
+  </div>
+  <div>
+    <%= f.label :total_amount %>
+    <%= f.number_field :total_amount, step: 0.01 %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>
