@@ -1,5 +1,17 @@
 class Review < ApplicationRecord
+  belongs_to :user      # reviewer
   belongs_to :product
-  belongs_to :user
+
   validates :rating, presence: true
+  validates :comment, presence: true
 end
+
+#Fields:
+
+#user_id:integer
+
+#product_id:integer
+
+#rating:integer (1–5)
+
+#comment:text

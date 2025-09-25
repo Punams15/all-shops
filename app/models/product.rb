@@ -1,3 +1,17 @@
 class Product < ApplicationRecord
-  # you can add validations or associations here later
+  belongs_to :shop
+  has_many :orders
+  has_many :reviews, dependent: :destroy
 end
+
+#Fields:
+
+#name:string
+
+#description:text
+
+#price:decimal
+
+#stock:integer
+
+#shop_id:integer
