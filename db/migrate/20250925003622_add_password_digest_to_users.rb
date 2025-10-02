@@ -1,4 +1,4 @@
-class AddFieldsToUsers < ActiveRecord::Migration[7.0]
+class AddPasswordDigestToUsers < ActiveRecord::Migration[7.0]
   def change
     add_column :users, :email, :string, null: false unless column_exists?(:users, :email)
     add_column :users, :name, :string unless column_exists?(:users, :name)

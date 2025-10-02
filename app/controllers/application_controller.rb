@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  
+ 
   # Cart helper
   
   def current_cart
@@ -14,11 +14,11 @@ class ApplicationController < ActionController::Base
     cart
   end
 
-  
+
   # User authentication helpers
-  
+
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
   end
 
   def logged_in?
@@ -29,21 +29,23 @@ class ApplicationController < ActionController::Base
     current_user&.admin?
   end
 
-  
+
   # Admin-only access
-  
+
   def require_admin
     unless admin?
       redirect_to root_path, alert: "Access denied"
     end
   end
 
- 
+  
   # Authentication required
- 
+  
   def require_login
     unless logged_in?
+      # You can choose either redirect or forbidden response
       redirect_to login_path, alert: "You must log in first"
+      # OR for API-style access: head :forbidden
     end
   end
 end

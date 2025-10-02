@@ -1,32 +1,38 @@
 Rails.application.routes.draw do
-  # Root path
   root "home#index"
 
-  # Users (for signup/login/admin management)
-  resources :users
-  get "signup", to: "users#new", as: :signup
-  get "login", to: "sessions#new", as: :login
-  post "login", to: "sessions#create"
-  delete "logout", to: "sessions#destroy", as: :logout
+  # User authentication
+  get  "/signup", to: "users#new", as: :signup
+  post "/signup", to: "users#create"
+  get    "/login",  to: "sessions#new", as: :login
+  post   "/login",  to: "sessions#create"
+  delete "/logout", to: "sessions#destroy", as: :logout
+  resources :users, only: [:show, :edit, :update, :destroy]
 
-  # Categories and nested Subcategories
+  # Categories / Subcategories
   resources :categories do
     resources :subcategories
   end
 
-  # Shops and Products
+  # Shops with full nested product CRUD
   resources :shops do
-    resources :products
+    resources :products # all actions
   end
 
-  # Orders, Promotions, Reviews
+  # Top-level products (read-only)
+  resources :products, only: [:index, :show]
+
+  # Orders
   resources :orders
+
+  # Promotions, Reviews
   resources :promotions
   resources :reviews
 
-  # Singleton Cart
+  # Cart
   resource :cart, only: [:show]
 
-  # Optional health check route
+  # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 end
+

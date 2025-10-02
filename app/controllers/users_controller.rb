@@ -1,17 +1,5 @@
 class UsersController < ApplicationController
-  # Only admins can manage users
-  before_action :require_admin, only: [:index, :destroy, :edit, :update]
-
-  # Users must be logged in to create or edit their profile
-  before_action :require_login, only: [:edit, :update]
-
-  def index
-    @users = User.all
-  end
-
-  def show
-    @user = User.find(params[:id])
-  end
+  before_action :require_login, only: [:show, :edit, :update, :destroy]
 
   def new
     @user = User.new
@@ -21,18 +9,23 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      redirect_to @user, notice: "User created successfully"
+      redirect_to root_path, notice: "Account created successfully"
     else
       render :new
     end
   end
 
+  # protected actions: show/edit/update/destroy
+  def show
+    @user = current_user
+  end
+
   def edit
-    @user = User.find(params[:id])
+    @user = current_user
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = current_user
     if @user.update(user_params)
       redirect_to @user, notice: "Profile updated"
     else
@@ -41,15 +34,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
+    @user = current_user
     @user.destroy
-    redirect_to users_path, notice: "User deleted"
+    session[:user_id] = nil
+    redirect_to root_path, notice: "Account deleted"
   end
 
   private
-
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :name, :admin)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 end
 

@@ -1,44 +1,52 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update]
+  before_action :require_login, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    @products = Product.all
+    @shop = Shop.find(params[:shop_id])
+    @products = @shop.products
   end
 
   def show
+    @product = Product.find(params[:id])
   end
 
+  # protected actions
   def new
-    @product = Product.new
+    @shop = current_user.shop
+    @product = @shop.products.new
   end
 
   def create
-    @product = Product.new(product_params)
+    @shop = current_user.shop
+    @product = @shop.products.new(product_params)
     if @product.save
-      redirect_to @product, notice: "Product created successfully!"
+      redirect_to shop_product_path(@shop, @product), notice: "Product created"
     else
       render :new
     end
   end
 
   def edit
+    @product = current_user.shop.products.find(params[:id])
   end
 
   def update
+    @product = current_user.shop.products.find(params[:id])
     if @product.update(product_params)
-      redirect_to @product, notice: "Product updated successfully!"
+      redirect_to shop_product_path(@product.shop, @product), notice: "Product updated"
     else
       render :edit
     end
   end
 
-  private
-
-  def set_product
-    @product = Product.find(params[:id])
+  def destroy
+    @product = current_user.shop.products.find(params[:id])
+    @product.destroy
+    redirect_to shop_products_path(current_user.shop), notice: "Product deleted"
   end
 
+  private
   def product_params
-    params.require(:product).permit(:name, :description, :price, :subcategory_id, :seller_id, :stock, :image_url)
+    params.require(:product).permit(:name, :description, :price)
   end
 end
